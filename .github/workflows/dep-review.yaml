@@ -1,11 +1,11 @@
 name: 'Dependency Review'
 on: [pull_request]
 
-permissions:
-  contents: read
-
 jobs:
   dependency-review:
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout Repository'
@@ -15,3 +15,4 @@ jobs:
         with:
           base-ref: ${{ inputs.base_ref || github.event.pull_request.base.sha || 'main' }}
           head-ref: ${{ inputs.head_ref || github.event.pull_request.head.sha || github.ref }}
+          comment-summary-in-pr: always
