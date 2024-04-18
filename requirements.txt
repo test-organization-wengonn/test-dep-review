@@ -20,5 +20,4 @@ poetry==1.1.9
 pip==21.1
 werkzeug==3.0.1
 pip-tools==4.5.1
-Cython==0.29.1
-asd
+Cython==0.29.0
