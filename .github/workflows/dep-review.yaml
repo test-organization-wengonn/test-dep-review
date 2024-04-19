@@ -23,7 +23,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   dependency-review:
-    needs: is_repo_public
     if: ${{ needs.is_repo_public.outputs.is_public == 'true' }}
     permissions:
       contents: read
