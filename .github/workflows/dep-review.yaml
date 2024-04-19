@@ -24,7 +24,7 @@ jobs:
 
   dependency-review:
     needs: is_repo_public
-    if: env.is_public == 'true'
+    if: ${{ env.is_public == 'true' }}
     permissions:
       contents: read
       pull-requests: write
