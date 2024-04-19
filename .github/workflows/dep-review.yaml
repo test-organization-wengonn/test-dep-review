@@ -14,20 +14,19 @@ jobs:
           pull-requests: write
     env:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         REPO_VISIBILITY: "public"
     steps:
       - name: Check if repo is public
         run: |
           response=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" repos/${{ github.repository}} | jq -r '.visibility')
-          if [ "$response" != "public" ]; then
-            echo "Repository is private. Dependency Review will be skipped."
-            echo 'REPO_VISIBILITY="private"' >> $GITHUB_ENV
+          if [ "$response" == "public" ]; then
+            echo "Repository is Public. Gogin ahead with dependency Review."
+            echo 'is_public="public"' >> $GITHUB_ENV
           fi
       - name: "Checkout Repository"
-        if: ${{ env.REPO_VISIBILITY }} == "public"
+        if: env.is_public == 'public'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
       - name: "Dependency Review"
-        if: ${{ env.REPO_VISIBILITY }} == "public"
+        if: env.is_public == 'public'
         uses: actions/dependency-review-action@2ce029c676cacb6112c47192ee072c7f783330c5
         with:
           comment-summary-in-pr: always
