@@ -24,10 +24,10 @@ jobs:
             echo 'REPO_VISIBILITY="private"' >> $GITHUB_ENV
           fi
       - name: "Checkout Repository"
-        if: env.REPO_VISIBILITY == "public"
+        if: ${{ env.REPO_VISIBILITY }} == "public"
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
       - name: "Dependency Review"
-        if: env.REPO_VISIBILITY == "public"
+        if: ${{ env.REPO_VISIBILITY }} == "public"
         uses: actions/dependency-review-action@2ce029c676cacb6112c47192ee072c7f783330c5
         with:
           comment-summary-in-pr: always
