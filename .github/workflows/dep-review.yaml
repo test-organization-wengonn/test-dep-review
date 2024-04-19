@@ -20,13 +20,15 @@ jobs:
           response=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" repos/${{ github.repository}} | jq -r '.visibility')
           if [ "$response" == "public" ]; then
             echo "Repository is Public. Gogin ahead with dependency Review."
-            echo 'is_public="public"' >> $GITHUB_ENV
+            echo 'is_public="true"' >> $GITHUB_ENV
           fi
+
+          echo $env
       - name: "Checkout Repository"
-        if: env.is_public == 'public'
+        if: env.is_public == 'true'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
       - name: "Dependency Review"
-        if: env.is_public == 'public'
+        if: env.is_public == 'true'
         uses: actions/dependency-review-action@2ce029c676cacb6112c47192ee072c7f783330c5
         with:
           comment-summary-in-pr: always
