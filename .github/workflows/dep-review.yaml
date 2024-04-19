@@ -21,7 +21,7 @@ jobs:
           response=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" repos/${{ github.repository}} | jq -r '.visibility')
           if [ "$response" != "public" ]; then
             echo "Repository is private. Dependency Review will be skipped."
-            echo 'repo_visibility="private"' >> $GITHUB_ENV
+            echo 'REPO_VISIBILITY="private"' >> $GITHUB_ENV
           fi
       - name: "Checkout Repository"
         if: env.REPO_VISIBILITY == "public"
