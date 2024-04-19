@@ -19,6 +19,8 @@ jobs:
           else
             echo "is_public=true" >> $GITHUB_OUTPUT
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   dependency-review:
     needs: is_repo_public
