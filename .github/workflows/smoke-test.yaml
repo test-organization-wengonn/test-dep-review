@@ -1,0 +1,42 @@
+name: Smoke Tests RoW 
+
+permissions:
+    actions: write
+    checks: write
+    contents: write
+    deployments: write
+    pull-requests: write
+    statuses: write
+   
+on:
+    workflow_run:
+        workflows: ['Generate ROW preview link']
+        types:
+            - completed
+
+jobs:
+    cypress-run:
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        strategy:
+            fail-fast: false
+            matrix:
+                containers: [1, 2, 3, 4, 5]
+
+        steps:
+            - name: Download artifact
+              id: download-artifact
+              uses: actions/download-artifact@7a1cd3216ca9260cd8022db641d960b1db4d1be4
+              with:
+                  run-id: ${{ github.event.workflow_run.id }}
+                  name: 'pr-${{ github.event.workflow_run.id }}'
+                  path: .pr
+            
+            - name: Retrieve pull request
+              id: pr_information
+              run: |
+                  echo "issue_number=$(cat ./pr/NR)" 
+                  echo "preview_url=$(cat ./pr/PREVIEW_URL)" 
+                  echo "branch_name=$(cat ./pr/BRANCHNAME)" 
+                  echo "user_name=$(cat ./pr/USERNAME)" 
+                  echo "draft=$(cat ./pr/DRAFT)" 
