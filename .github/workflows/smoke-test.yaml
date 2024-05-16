@@ -36,6 +36,7 @@ jobs:
             - name: Retrieve pull request
               id: pr_information
               run: |
+                  ls -la && echo testasdasds && ls -la *
                   echo "issue_number=$(cat ./pr/NR)" 
                   echo "preview_url=$(cat ./pr/PREVIEW_URL)" 
                   echo "branch_name=$(cat ./pr/BRANCHNAME)" 
